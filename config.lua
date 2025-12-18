@@ -12,15 +12,15 @@ Config.CoreFolderName = "qb-core"
 
 -- Configurazione Discord per il caricamento delle immagini
 Config.Discord = {
-    enabled = false, -- Disabilitato per demo
+    enabled = true,
     botToken = "IL_TUO_BOT_TOKEN_DISCORD", -- Sostituisci con il token del tuo bot
     guildId = "IL_TUO_SERVER_ID", -- Sostituisci con l'ID del tuo server
     channelId = "IL_TUO_CANALE_ID", -- Sostituisci con l'ID del tuo canale
 }
 
--- Configurazione dei libri disponibili - Versione Demo
+-- Configurazione dei libri disponibili
 Config.Books = {
-    ['demo_book'] = {
+    ['guida_turistica'] = {
         ['pages'] = {
             { pageName = "copertina", type = 'hard', source = 'local' }, --Copertina anteriore
             { pageName = "1", type = 'hard', source = 'local' }, --Interni copertina anteriore
@@ -37,7 +37,7 @@ Config.Books = {
             ['height'] = 600, --altezza immagine pagina
         },
     },
-    ['demo_guide'] = {
+    ['progetti_pacific'] = {
         ['pages'] = {
             { pageName = "copertina", type = 'hard', source = 'local' }, --Copertina anteriore
             { pageName = "1", type = 'hard', source = 'local' }, --Interni copertina anteriore
@@ -50,6 +50,26 @@ Config.Books = {
         ['size'] = {
             ['width'] = 800, --larghezza immagine pagina
             ['height'] = 600, --altezza immagine pagina
+        },
+    },
+    ['annuario_scolastico_2005'] = {
+        ['pages'] = {
+            { pageName = "COPERTINA", type = 'hard', source = 'local' }, --Copertina anteriore
+            { pageName = "PAGINA_1", type = 'normal', source = 'local' }, --Prima pagina
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 2
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 3
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 4
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 5
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 6
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 7
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 8
+            { pageName = "PAGINA_VUOTA", type = 'normal', source = 'local' }, --Pagina 9
+            { pageName = "COPERTINA_END", type = 'hard', source = 'local' }, --Copertina posteriore
+        },
+        ['prop'] = 'book',
+        ['size'] = {
+            ['width'] = 720,
+            ['height'] = 600,
         },
     },
 }

@@ -5,7 +5,7 @@ lua54 'yes'
 
 ui_page 'html/index.html'
 
-resource_description 'FiveM Interactive Book System - Demo Version'
+resource_description 'FiveM Book Annuario Astral Script by GMM'
 
 shared_scripts {
     '@ox_lib/init.lua',

@@ -37,7 +37,7 @@ window.addEventListener('message', function(event) {
                     $('#contenitore').append(pageDiv);
                     
                     // Mostra testo sulla copertina se è la prima pagina hard
-                    if (page.type === 'hard' && page.pageName.includes('copertina')) {
+                    if (page.type === 'hard' && page.pageName.includes('copertina_annuario')) {
                         $('#testo-copertina').show();
                     }
                 });

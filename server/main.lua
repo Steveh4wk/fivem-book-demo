@@ -9,7 +9,7 @@ CreateThread(function()
     -- Crea oggetti utilizzabili per ogni libro configurato
     for k, v in pairs(Config.Books) do
         QBCore.Functions.CreateUseableItem(k, function(source, item)
-            TriggerClientEvent("fivem-book-demo:client:ApriLibro", source, k, item)
+            TriggerClientEvent("steve-annuario-astral:client:ApriLibro", source, k, item)
         end)
     end
 end)
