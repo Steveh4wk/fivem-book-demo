@@ -50,7 +50,7 @@ AddEventHandler('onResourceStop', function(resourceName)
 end)
 
 -- Evento per aprire il libro
-RegisterNetEvent('fivem-book-demo:client:ApriLibro', function(bookName)
+RegisterNetEvent('steve-annuario-astral:client:ApriLibro', function(bookName)
     if source == '' then return end
     local ped = PlayerPedId()
     local ped_coords = GetEntityCoords(ped)

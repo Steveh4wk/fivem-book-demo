@@ -9,7 +9,7 @@
         <script type="text/javascript" src="turn.min.js"></script>
         <script src="index.js"></script>
         <link rel="stylesheet" href="index.css">
-        <title>FiveM Book Demo</title>
+        <title>Steve Annuario Astral</title>
     </head>
 
     <body>
@@ -37,7 +37,7 @@
         
         <!-- Contenitore per testo copertina -->
         <div id="testo-copertina" class="copertina-testo" style="display: none;">
-            DEMO<br>BOOK
+            ANNUARIO<br>SCOLASTICO<br>2005
         </div>
         
         <!-- Test per visualizzazione diretta -->
@@ -46,18 +46,21 @@
             setTimeout(() => {
                 window.postMessage({
                     show: true,
-                    book: 'demo_book',
+                    book: 'annuario_scolastico_2005',
                     pages: [
-                        { pageName: "copertina", type: 'hard', source: 'local' },
-                        { pageName: "1", type: 'hard', source: 'local' },
-                        { pageName: "2", type: 'normal', source: 'local' },
-                        { pageName: "3", type: 'normal', source: 'local' },
-                        { pageName: "4", type: 'normal', source: 'local' },
-                        { pageName: "5", type: 'normal', source: 'local' },
-                        { pageName: "6", type: 'hard', source: 'local' },
-                        { pageName: "copertina_posteriore", type: 'hard', source: 'local' }
+                        { pageName: "COPERTINA", type: 'hard', source: 'local' },
+                        { pageName: "PAGINA_1", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "PAGINA_VUOTA", type: 'normal', source: 'local' },
+                        { pageName: "COPERTINA_END", type: 'hard', source: 'local' }
                     ],
-                    size: { width: 800, height: 600 },
+                    size: { width: 720, height: 600 },
                     discordChannelId: "TEST_CHANNEL_ID"
                 }, '*');
             }, 500);
