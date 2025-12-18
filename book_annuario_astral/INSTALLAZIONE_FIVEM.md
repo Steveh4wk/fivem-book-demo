@@ -31,7 +31,7 @@ Aggiungi in `qb-core/shared/items.lua`:
 ### 3. Icona Inventario
 Usa direttamente l'immagine della copertina:
 - Origine: `html/img/COPERTINA.png`
-- Destinazione: `qb-inventory/html/images/annuario_scolastico_2005.png`
+- Destinazione: `ox_inventory/html/images/annuario_scolastico_2005.png`
 - Nota: L'inventario adatterà automaticamente le dimensioni
 
 ### 4. Installazione Resource
