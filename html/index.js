@@ -37,38 +37,54 @@ window.addEventListener('message', function(event) {
                     const isFrontCover = page.pageName.includes('COPERTINA') && !page.pageName.includes('END');
                     // Controlla se è la copertina finale
                     const isBackCover = page.pageName.includes('COPERTINA_END');
-                    // Controlla se è una pagina vuota
-                    const isEmptyPage = page.pageName.includes('PAGINA_VUOTA') || imgSrc.includes('data:image/png;base64,iVBORw0KGgo');
+                    console.log("Processing page:", page.pageName, "isBackCover:", isBackCover);
+                    // Controlla se è una pagina vuota normale (non PAGINA_VUOTA_COPERTINA) o PAGINA_1
+                    const isEmptyPage = (page.pageName.includes('PAGINA_VUOTA') && !page.pageName.includes('COPERTINA')) || page.pageName === 'PAGINA_1' || imgSrc.includes('data:image/png;base64,iVBORw0KGgo');
                     
                     if (isFrontCover) {
-                        // Per la copertina frontale, aggiungi come pagina hard singola
-                        const pageDiv = `<div class="hard"><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        // Per la copertina frontale, aggiungi come pagina hard singola con retro
+                        const pageDiv = `<div class="hard" id="front-cover"><img src="${imgSrc}" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}${imgStyle}></div>`;
                         $('#contenitore').append(pageDiv);
                         
-                        // Aggiungi una pagina vuota a sinistra per l'apertura
-                        const emptyPageDiv = `<div class="hard"><img src="img/PAGINA_VUOTA_COPERTINA.png" width=${event.data.size.width} height=${event.data.size.height}></div>`;
-                        $('#contenitore').append(emptyPageDiv);
+                        // Aggiungi il retro della copertina (PAGINA_VUOTA_COPERTINA)
+                        const backPageDiv = `<div class="hard" id="front-right-page"><img src="img/PAGINA_VUOTA_COPERTINA.png" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}></div>`;
+                        $('#contenitore').append(backPageDiv);
+                        
+                        // Aggiungi PAGINA_VUOTADX per iniziare la sequenza
+                        const rightPageDiv = `<div><img src="img/PAGINA_VUOTADX.png" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}></div>`;
+                        $('#contenitore').append(rightPageDiv);
                         
                     } else if (isBackCover) {
-                        // Per la copertina finale, aggiungi come pagina hard singola
-                        const pageDiv = `<div class="hard"><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        // Aggiungi COPERTINA_END come pagina hard singola alla fine
+                        console.log("Adding COPERTINA_END page");
+                        const pageDiv = `<div class="hard" id="final-back-cover"><img src="${imgSrc}" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}${imgStyle}></div>`;
                         $('#contenitore').append(pageDiv);
+                        console.log("COPERTINA_END added successfully");
                         
                     } else if (isEmptyPage) {
                         // Controlla se è l'ultima pagina vuota prima della copertina finale
                         const isLastEmptyBeforeBackCover = index === event.data.pages.length - 2 && event.data.pages[index + 1].pageName.includes('COPERTINA_END');
                         
-                        // Per le pagine vuote, aggiungi sempre la pagina a sinistra
-                        const pageClassHard = isLastEmptyBeforeBackCover ? ' class="hard"' : pageClass;
-                        const pageDiv = `<div${pageClassHard}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
-                        $('#contenitore').append(pageDiv);
-                        
-                        // Aggiungi anche la pagina specchiata a destra
-                        const mirroredPageDiv = `<div${pageClassHard}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height} style="transform: scaleX(-1);"></div>`;
-                        $('#contenitore').append(mirroredPageDiv);
+                        // Per le pagine vuote normali, aggiungi PAGINA_VUOTASX a sinistra e PAGINA_VUOTADX a destra
+                        if (!isLastEmptyBeforeBackCover) {
+                            // Pagina sinistra
+                            const leftPageDiv = `<div><img src="img/PAGINA_VUOTASX.png" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}></div>`;
+                            $('#contenitore').append(leftPageDiv);
+                            
+                            // Pagina destra
+                            const rightPageDiv = `<div><img src="img/PAGINA_VUOTADX.png" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}></div>`;
+                            $('#contenitore').append(rightPageDiv);
+                        } else {
+                            // Per l'ultima pagina vuota prima della copertina finale, aggiungi PAGINA_VUOTASX e PAGINA_VUOTA_COPERTINA
+                            const leftPageDiv = `<div><img src="img/PAGINA_VUOTASX.png" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}></div>`;
+                            $('#contenitore').append(leftPageDiv);
+                            
+                            const rightPageDiv = `<div class="hard" id="final-empty-cover" style="cursor: pointer;"><img src="img/PAGINA_VUOTA_COPERTINA.png" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}></div>`;
+                            $('#contenitore').append(rightPageDiv);
+                        }
                     } else {
-                        // Per le pagine normali, aggiungi normalmente
-                        const pageDiv = `<div${pageClass}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        // Per le pagine normali (come PAGINA_1), aggiungi come pagina singola
+                        const pageDiv = `<div${pageClass}><img src="${imgSrc}" width=${Math.floor(event.data.size.width * 0.7)} height=${Math.floor(event.data.size.height * 1.0)}${imgStyle}></div>`;
                         $('#contenitore').append(pageDiv);
                     }
                     
@@ -86,12 +102,57 @@ window.addEventListener('message', function(event) {
                 $('#contenitore').turn({
                     gradients: true,
                     autoCenter: true,
-                    width: event.data.size.width*2,
-                    height: event.data.size.height,
+                    width: Math.floor(event.data.size.width * 2 * 0.7), // Ridotto del 10% (da 0.8 a 0.7)
+                    height: Math.floor(event.data.size.height * 1.0), // Aumentato del 20% (da 0.8 a 1.0)
                     page: 1,
                     acceleration: true,
+                    elevation: 50, // Ombra per effetto 3D
+                    when: {
+                        turning: function(e, page, view) {
+                            // Assicura posizioni consistenti durante il flip
+                            $('#contenitore').css('position', 'relative');
+                            $('#contenitore').css('left', 'auto');
+                        }
+                    }
+                });
+                
+                // Personalizza gli angoli di partenza per i flip
+                $('#contenitore').turn('options', {
+                    turnCorners: 'all' // Abilita tutti i corner per i flip
                 });
                 $('body').css('display', 'block');
+                
+                // Debug: verifica le pagine caricate
+                console.log("Total pages loaded:", $('#contenitore').turn('pages'));
+                console.log("Final back cover exists:", $('#final-back-cover').length > 0);
+                console.log("Final empty cover exists:", $('#final-empty-cover').length > 0);
+                
+                // Verifica il contenuto del contenitore
+                console.log("Contenitore HTML:", $('#contenitore').html());
+                
+                // Aggiungi il gestore di click per la pagina vuota copertina finale
+                $(document).on('click', '#final-empty-cover', function() {
+                    console.log("Final empty cover clicked!");
+                    const totalPages = $('#contenitore').turn('pages');
+                    console.log("Total pages:", totalPages);
+                    const finalCoverPage = totalPages;
+                    console.log("Jumping to page:", finalCoverPage);
+                    
+                    // Esegui l'hard flip singolo alla copertina finale
+                    $('#contenitore').turn('page', finalCoverPage);
+                });
+                
+                // Aggiungi il gestore di click per PAGINA_VUOTA_COPERTINA dopo COPERTINA frontale
+                $('#front-right-page').on('click', function() {
+                    // Calcola la pagina successiva (dopo PAGINA_VUOTA_COPERTINA + PAGINA_VUOTADX)
+                    const currentPage = $('#contenitore').turn('page');
+                    const nextPage = currentPage + 2; // Salta le due pagine correnti
+                    
+                    // Esegui il flip alla pagina successiva
+                    $('#contenitore').turn('page', nextPage);
+                });
+                
+                
             });
         }
     } else if (event.data.show == false) {
