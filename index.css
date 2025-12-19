@@ -1,7 +1,11 @@
 body {
     overflow: hidden;
     display: none;
-    margin: 15vh 20vh;
+    margin: 10vh auto;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    max-width: 1440px; /* Larghezza massima per due pagine: 720px * 2 */
 }
 
 /* Stile migliorato per la separazione centrale delle pagine */
