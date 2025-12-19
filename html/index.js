@@ -33,8 +33,44 @@ window.addEventListener('message', function(event) {
                     let pageClass = page.type === 'hard' ? ' class="hard"' : '';
                     let imgStyle = '';
                     
-                    const pageDiv = `<div${pageClass}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
-                    $('#contenitore').append(pageDiv);
+                    // Controlla se è la copertina frontale
+                    const isFrontCover = page.pageName.includes('COPERTINA') && !page.pageName.includes('END');
+                    // Controlla se è la copertina finale
+                    const isBackCover = page.pageName.includes('COPERTINA_END');
+                    // Controlla se è una pagina vuota
+                    const isEmptyPage = page.pageName.includes('PAGINA_VUOTA') || imgSrc.includes('data:image/png;base64,iVBORw0KGgo');
+                    
+                    if (isFrontCover) {
+                        // Per la copertina frontale, aggiungi come pagina hard singola
+                        const pageDiv = `<div class="hard"><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        $('#contenitore').append(pageDiv);
+                        
+                        // Aggiungi una pagina vuota a sinistra per l'apertura
+                        const emptyPageDiv = `<div class="hard"><img src="img/PAGINA_VUOTA_COPERTINA.png" width=${event.data.size.width} height=${event.data.size.height}></div>`;
+                        $('#contenitore').append(emptyPageDiv);
+                        
+                    } else if (isBackCover) {
+                        // Per la copertina finale, aggiungi come pagina hard singola
+                        const pageDiv = `<div class="hard"><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        $('#contenitore').append(pageDiv);
+                        
+                    } else if (isEmptyPage) {
+                        // Controlla se è l'ultima pagina vuota prima della copertina finale
+                        const isLastEmptyBeforeBackCover = index === event.data.pages.length - 2 && event.data.pages[index + 1].pageName.includes('COPERTINA_END');
+                        
+                        // Per le pagine vuote, aggiungi sempre la pagina a sinistra
+                        const pageClassHard = isLastEmptyBeforeBackCover ? ' class="hard"' : pageClass;
+                        const pageDiv = `<div${pageClassHard}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        $('#contenitore').append(pageDiv);
+                        
+                        // Aggiungi anche la pagina specchiata a destra
+                        const mirroredPageDiv = `<div${pageClassHard}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height} style="transform: scaleX(-1);"></div>`;
+                        $('#contenitore').append(mirroredPageDiv);
+                    } else {
+                        // Per le pagine normali, aggiungi normalmente
+                        const pageDiv = `<div${pageClass}><img src="${imgSrc}" width=${event.data.size.width} height=${event.data.size.height}${imgStyle}></div>`;
+                        $('#contenitore').append(pageDiv);
+                    }
                     
                     // Mostra testo sulla copertina se è la prima pagina hard
                     if (page.type === 'hard' && page.pageName.includes('copertina_annuario')) {
